@@ -1,0 +1,5 @@
+[
+  {"index":"1", "src": "./audio/note1o.mp3"},
+  {"index":"2", "src": "./audio//note1s.mp3"},
+  {"index":"3", "src":"./audio/note1t.mp3"}
+]
