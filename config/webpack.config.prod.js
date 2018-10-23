@@ -39,7 +39,7 @@ const env = getClientEnvironment(publicUrl);
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
-if (env.stringified["process.env"].NODE_ENV !== ""production"") {
+if (env.stringified["process.env"].NODE_ENV !=="\"production\"") {
   throw new Error("Production builds must have NODE_ENV=production.");
 }
 
@@ -251,7 +251,7 @@ module.exports = {
             options: {
               formatter: require.resolve("react-dev-utils/eslintFormatter"),
               eslintPath: require.resolve("eslint"),
-              
+
             },
             loader: require.resolve("eslint-loader"),
           },
@@ -284,7 +284,7 @@ module.exports = {
               customize: require.resolve(
                 "babel-preset-react-app/webpack-overrides"
               ),
-              
+
               plugins: [
                 [
                   require.resolve("babel-plugin-named-asset-import"),
