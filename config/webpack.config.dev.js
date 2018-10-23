@@ -13,7 +13,7 @@ const getClientEnvironment = require("./env");
 const paths = require("./paths");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const ModuleNotFoundPlugin = require("react-dev-utils/ModuleNotFoundPlugin");
-
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -319,6 +319,18 @@ module.exports = {
           },
         ],
       },
+        /** Fonts Loader **/
+        {
+            test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+            use: [{
+                loader: "url-loader",
+                options: {
+                    mimetype: "application/font-woff",
+                    name: "/fonts/[name].[ext]",
+                    limit:50000
+                }
+            }]
+        },
       // ** STOP ** Are you adding a new loader?
       // Make sure to add the new loader(s) before the "file" loader.
     ],
@@ -364,6 +376,12 @@ module.exports = {
       fileName: "asset-manifest.json",
       publicPath: publicPath,
     }),
+    new CopyWebpackPlugin([
+        {from:"./src/audio",to:"./audio"},
+        {from:"./src/data",to:"./data"},
+        {from:"./src/fonts",to:"./fonts"},
+        {from:"./src/images",to:"./images"}
+      ]),
   ],
 
   // Some libraries import Node modules but don"t use them in the browser.
