@@ -1,0 +1,6 @@
+.holder-keyboard{display: flex;}
+
+.note{
+  flex-direction: column;
+  &.white{fill: $white; stroke: $black;}
+}
