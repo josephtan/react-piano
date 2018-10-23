@@ -9,10 +9,6 @@ export default class DrawKeyboard extends Component {
         constructor(props){
             super(props);
             this.whiteNote = ".note";
-            this.rectX = 0;
-            this.rectY = 0;
-            this.rectWidth = 80;
-            this.rectHeight = 400;
         }
         componentDidMount(){
             let keyboardDivs = ReactDOM.findDOMNode(this.refs.keyboardW);
@@ -30,9 +26,7 @@ export default class DrawKeyboard extends Component {
                 elementNodes[i].id = "note-" + i;
             }
             rectSelector.append("g")
-                .append("rect")
-                .attr("width",this.rectWidth)
-                .attr("height",this.rectHeight);
+                .append("rect");
         }
         render(){
           return(

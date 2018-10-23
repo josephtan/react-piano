@@ -2,5 +2,8 @@
 
 .note{
   flex-direction: column;
+  width: 80px;  height: 400px;
+  svg{ width: 80px;  height: 400px;}
+  rect{ width: 80px;  height: 400px;}
   &.white{fill: $white; stroke: $black;}
 }
