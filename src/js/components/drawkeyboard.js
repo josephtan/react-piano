@@ -3,7 +3,6 @@
  */
 import React, {Component} from "react";
 import * as d3 from "d3";
-import ReactDOM from "react-dom";
 
 export default class DrawKeyboard extends Component {
         constructor(props){
@@ -13,12 +12,10 @@ export default class DrawKeyboard extends Component {
             this.noteBlack = 36;
         }
         componentDidMount(){
-            let keyboardDivs = ReactDOM.findDOMNode(this.refs.keyboardW);
-            this.drawRect(this.keyboard, keyboardDivs);
+            this.drawRect(this.keyboard);
         }
-        drawRect(polygonClassName,keyboardDivs){
+        drawRect(polygonClassName){
             let keyboard = d3.select(polygonClassName);
-            let elementNodes = keyboardDivs.childNodes;
             let i;
 
             /** #### Draw white keys #### **/
