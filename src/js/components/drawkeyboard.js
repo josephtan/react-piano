@@ -14,7 +14,7 @@ export default class DrawKeyboard extends Component {
         }
         componentDidMount(){
             let keyboardDivs = ReactDOM.findDOMNode(this.refs.keyboardW);
-            this.drawRect(this.keyboard, keyboardDivs,this.rectX,this.rectY,this.rectWidth,this.rectHeight);
+            this.drawRect(this.keyboard, keyboardDivs);
         }
         drawRect(polygonClassName,keyboardDivs){
             let keyboard = d3.select(polygonClassName);
