@@ -8,37 +8,48 @@ import ReactDOM from "react-dom";
 export default class DrawKeyboard extends Component {
         constructor(props){
             super(props);
-            this.whiteNote = ".note";
+            this.keyboard = ".holder-keyboard";
+            this.noteWhite = 52;
+            this.noteBlack = 36;
         }
         componentDidMount(){
             let keyboardDivs = ReactDOM.findDOMNode(this.refs.keyboardW);
-            this.drawRect(this.whiteNote, keyboardDivs,this.rectX,this.rectY,this.rectWidth,this.rectHeight);
+            this.drawRect(this.keyboard, keyboardDivs,this.rectX,this.rectY,this.rectWidth,this.rectHeight);
         }
         drawRect(polygonClassName,keyboardDivs){
-            let rectSelector = d3.selectAll(polygonClassName).append("svg")
-                .attr("width", this.rectWidth)
-                .attr("height", this.rectHeight);
+            let keyboard = d3.select(polygonClassName);
             let elementNodes = keyboardDivs.childNodes;
-            let elementLength = elementNodes.length, i;
-            rectSelector.attr("preserveAspectRatio","none");
-            rectSelector.append("defs");
-            for(i = 0; i< elementLength; i++){
-                elementNodes[i].id = "note-" + i;
+            let i;
+
+            /** #### Draw white keys #### **/
+            for (i =1; i <= this.noteWhite; i++){
+                /** #### On first count add div keyboard-top #### **/
+                    if(i === 1){
+                        keyboard.append("div").attr("class","keyboard-top")
+                    }
+                    if( i <= (this.noteWhite/2)){
+                        d3.select(".keyboard-top").append("svg")
+                            .attr("id","note-white-"+ i)
+                            .attr("preserveAspectRatio","none")
+                            .append("rect")
+                            .attr("class","note white");
+                    }
+                    /** #### On 26th count add div keyboard-bottom #### **/
+                    if(i === (this.noteWhite/2)){
+                        keyboard.append("div").attr("class","keyboard-bottom")
+                    }
+                    if(i > (this.noteWhite/2)){
+                        d3.select(".keyboard-bottom").append("svg")
+                            .attr("id","note-white-"+ i)
+                            .attr("preserveAspectRatio","none")
+                            .append("rect")
+                            .attr("class","note white");
+                    }
             }
-            rectSelector.append("g")
-                .append("rect");
         }
         render(){
           return(
               <div className="holder-keyboard" ref="keyboardW">
-                  <div className="note white">
-                  </div>
-                  <div className="note white">
-                  </div>
-                  <div className="note white">
-                  </div>
-                  <div className="note white">
-                  </div>
               </div>
           );
         }
