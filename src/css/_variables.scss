@@ -9,7 +9,25 @@
 $cyan: #61dafb;
 
 $white : #fff;
+$ivory: #fffff0;
 $black-space: #141414;
 $black : #000;
 
 $grey-dark:#282c34;
+
+
+/*------------------------------------*\
+    $MARGIN /PADDING / SPACING
+\*------------------------------------*/
+
+$space : 1em;
+$space-and-half : $space*1.5;
+$space-double : $space*2;
+$space-quad : $space*4;
+$space-half : $space/2;
+
+
+/*------------------------------------*\
+    $BORDERS
+\*------------------------------------*/
+$solid-border-black: 1px solid $black;
