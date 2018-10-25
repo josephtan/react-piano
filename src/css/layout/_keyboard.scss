@@ -14,7 +14,7 @@ $keyBlackWidth:30px;
   flex-direction: column;
 }
 
-#ReactPiano,#ReactPiano2{
+#svg-keyboard-top,#svg-keyboard-btm{
   display: flex;
   flex-direction: row;
 }
@@ -28,9 +28,4 @@ $keyBlackWidth:30px;
 
 .keyboard-top,.keyboard-bottom{position: relative; margin-bottom: $space;}
 .keyboard-top-black,.keyboard-bottom-black{position: absolute; display: flex; flex-direction: row; z-index: 2; height: $keyHeight/2;
-}
-
-.note{
-  &.white{ fill: $ivory; stroke: $black;}
-  &.black{ stroke: $black;}
 }
