@@ -20,14 +20,20 @@ export default class DrawKeyboard extends Component {
         }
         clickEvent = () =>{
        //     this.setState({active:active})
-            console.log("active")
+            console.log("clickEvent function");
+            //console.log(this.state);
         };
+        /**------------------------------------**\
+          Draw keys method
+        \**------------------------------------**/
         drawKeys = (polygonClassName,active) => {
             let that = this;
             let keyboard = d3.select(polygonClassName);
             let wk,bk,keyCount = 1, blackKeyCount = 1;
             let xPlot,xPlotB,xPlotC,xPlotD;
-            /** Define white keyboard structure function **/
+            /**------------------------------------**\
+             Define white keyboard structure function
+            \**------------------------------------**/
           const  defineWhiteKeyboard = (keyboard,keyClass,keyWidth,keyHeight,keyType,svgID,gClass) => {
                 keyboard.append("div").attr("class",keyClass)
                     .attr("width",keyWidth * (keyType/2))
@@ -39,16 +45,27 @@ export default class DrawKeyboard extends Component {
                     .attr("preserveAspectRatio","none")
                     .append("g").attr("class",gClass);
             };
-            /** Define black keyboard structure function **/
+            /**------------------------------------**\
+             Define black keyboard structure function
+            \**------------------------------------**/
           const defineBlackKeyboard =(idSelector,gClass,translate) =>{
               d3.select(idSelector)
                   .append("g").attr("class",gClass)
                   .attr("transform",translate);
           };
-          /** Define Draw key function **/
+             /**------------------------------------**\
+                 Draw white keys function
+             \**------------------------------------**/
           const createWhiteKeys = (idSelector,keyType,keyCount,keyClass,keyWidth,keyHeight) =>{
                 d3.select(idSelector)
-                    .append("rect").attr("id","note-white-"+keyType)
+                    .append("rect")
+                    .on("mousedown", function() {
+                        that.clickEvent(); /** execute clickEvent **/
+                        d3.select("#note-white-"+keyType).attr("fill","#e3e1d4");
+                    }).on("mouseup",function(){
+                        d3.select("#note-white-"+keyType).attr("fill","#fffff0");
+                    })
+                    .attr("id","note-white-"+keyType)
                     .attr("class",keyClass)
                     .attr("width",keyWidth)
                     .attr("height",keyHeight)
@@ -60,40 +77,47 @@ export default class DrawKeyboard extends Component {
                         d3.select("#note-white-"+keyType).attr("x",(keyCount * keyWidth) - keyWidth).attr("y",0);
                     }
             };
-            /**#### Draw black keys ####**/
+             /**------------------------------------**\
+               Draw black keys function
+             \**------------------------------------**/
             const createBlackKeys = (selectorID,noteClass,keyType,keyWidth,keyHeight) =>{
                 d3.select(selectorID)
                     .append("rect")
                     .on("mousedown", function() {
-                        that.clickEvent(); // my react method
-                    } )
+                        that.clickEvent(); /** execute clickEvent **/
+                        d3.select("#note-black-"+keyType).attr("fill","#000");
+                     }).on("mouseup",function(){
+                         d3.select("#note-black-"+keyType).attr("fill","#444");
+                     })
                     .attr("id","note-black-"+ keyType)
                     .attr("class",noteClass)
-                    .attr("stroke","#000000")
+                    .attr("stroke","#000")
+                    .attr("fill","#444")
                     .attr("width", keyWidth)
                     .attr("height",keyHeight/2);
             };
-            /** #### Draw white keys #### **/
+            /**------------------------------------**\
+                Draw white keys loop
+             \**------------------------------------**/
             for (wk =1; wk <= this.noteWhite; wk++){
-                /** #### On first count define keyboard-top #### **/
                     if(wk === 1){
                         defineWhiteKeyboard(keyboard,"keyboard-top",this.keyWidth,this.keyHeight,this.noteWhite,"svg-keyboard-top","white-keys");
                     }
 
                     if( wk <= (this.noteWhite/2)){
-                        createWhiteKeys("#svg-keyboard-top .white-keys",wk,0,active, this.keyWidth,this.keyHeight);
+                        createWhiteKeys("#svg-keyboard-top .white-keys",wk,0,"note white",this.keyWidth,this.keyHeight);
                     }
-                     /** ####  define keyboard-bottom when count is 31 #### **/
                     if(wk === (this.noteWhite/2)){
                         defineWhiteKeyboard(keyboard,"keyboard-bottom",this.keyWidth,this.keyHeight,this.noteWhite,"svg-keyboard-btm","white-keys");
                     }
-                     /** #### If white keys more than 31 draw white keys to keyboard-bottom #### **/
                     if(wk > (this.noteWhite/2)){
                         createWhiteKeys("#svg-keyboard-btm .white-keys",wk,keyCount,"note white", this.keyWidth,this.keyHeight);
                         keyCount ++;
                     }
             }
-
+            /**------------------------------------**\
+                 Draw black keys loop
+             \**------------------------------------**/
             for (bk = 1; bk <= this.noteBlack; bk++){
                     if(bk === 1){
                         defineBlackKeyboard(".keyboard-top #svg-keyboard-top","black-keys","translate(28,0.0)");
@@ -102,7 +126,9 @@ export default class DrawKeyboard extends Component {
                          xPlot = ( bk * this.blackKeyW);
                          xPlotB = ((bk * this.blackKeyW) - 10);
                         createBlackKeys("#svg-keyboard-top .black-keys","note black",bk,this.blackKeyW,this.keyHeight);
-
+                        /**------------------------------------**\
+                            Add horizontal black key spacing according to key number
+                         \**------------------------------------**/
                         if(bk === 1){
                             d3.select("#note-black-1").attr("x", 0).attr("y",0);
                             }
@@ -204,9 +230,11 @@ export default class DrawKeyboard extends Component {
                     }
             }
         };
+
         render(){
           return(
               <div className="holder-keyboard">
+                  <p>Click on the respective keys to play notes. Note: Currently the piano is not responsive because of the complexity of the x positioning for svg within an algorithmic loop.</p>
               </div>
           );
         }
