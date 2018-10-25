@@ -13,80 +13,97 @@ export default class DrawKeyboard extends Component {
             this.keyWidth = 38;
             this.blackKeyW = 20;
             this.keyHeight = 298;
+            this.state = {active:this.props.active}
         }
         componentDidMount(){
-            this.drawKeys(this.keyboard);
+            this.drawKeys(this.keyboard,this.state.active);
         }
-        drawKeys(polygonClassName){
+        clickEvent = () =>{
+       //     this.setState({active:active})
+            console.log("active")
+        };
+        drawKeys = (polygonClassName,active) => {
+            let that = this;
             let keyboard = d3.select(polygonClassName);
             let wk,bk,keyCount = 1, blackKeyCount = 1;
             let xPlot,xPlotB,xPlotC,xPlotD;
+            /** Define white keyboard structure function **/
+          const  defineWhiteKeyboard = (keyboard,keyClass,keyWidth,keyHeight,keyType,svgID,gClass) => {
+                keyboard.append("div").attr("class",keyClass)
+                    .attr("width",keyWidth * (keyType/2))
+                    .attr("height",keyHeight + 2)
+                    .append("svg")
+                    .attr("id",svgID)
+                    .attr("width",keyWidth * (keyType/2) + 2)
+                    .attr("height",keyHeight + 2)
+                    .attr("preserveAspectRatio","none")
+                    .append("g").attr("class",gClass);
+            };
+            /** Define black keyboard structure function **/
+          const defineBlackKeyboard =(idSelector,gClass,translate) =>{
+              d3.select(idSelector)
+                  .append("g").attr("class",gClass)
+                  .attr("transform",translate);
+          };
+          /** Define Draw key function **/
+          const createWhiteKeys = (idSelector,keyType,keyCount,keyClass,keyWidth,keyHeight) =>{
+                d3.select(idSelector)
+                    .append("rect").attr("id","note-white-"+keyType)
+                    .attr("class",keyClass)
+                    .attr("width",keyWidth)
+                    .attr("height",keyHeight)
+                    .attr("fill","#fffff0")
+                    .attr("stroke","#000");
+                    if(keyCount === 0){
+                        d3.select("#note-white-"+keyType).attr("x",(keyType * keyWidth) - keyWidth).attr("y",0);
+                    }else{
+                        d3.select("#note-white-"+keyType).attr("x",(keyCount * keyWidth) - keyWidth).attr("y",0);
+                    }
+            };
+            /**#### Draw black keys ####**/
+            const createBlackKeys = (selectorID,noteClass,keyType,keyWidth,keyHeight) =>{
+                d3.select(selectorID)
+                    .append("rect")
+                    .on("mousedown", function() {
+                        that.clickEvent(); // my react method
+                    } )
+                    .attr("id","note-black-"+ keyType)
+                    .attr("class",noteClass)
+                    .attr("stroke","#000000")
+                    .attr("width", keyWidth)
+                    .attr("height",keyHeight/2);
+            };
             /** #### Draw white keys #### **/
             for (wk =1; wk <= this.noteWhite; wk++){
-                /** #### On first count add div keyboard-top #### **/
+                /** #### On first count define keyboard-top #### **/
                     if(wk === 1){
-                        keyboard.append("div").attr("class","keyboard-top")
-                            .attr("width",this.keyWidth * (this.noteWhite/2))
-                            .attr("height",this.keyHeight + 2)
-                            .append("svg")
-                            .attr("id","ReactPiano")
-                            .attr("width",this.keyWidth * (this.noteWhite/2) + 2)
-                            .attr("height",this.keyHeight + 2)
-                            .attr("preserveAspectRatio","none")
-                            .append("g").attr("class","white-keys");
+                        defineWhiteKeyboard(keyboard,"keyboard-top",this.keyWidth,this.keyHeight,this.noteWhite,"svg-keyboard-top","white-keys");
                     }
+
                     if( wk <= (this.noteWhite/2)){
-                        d3.select("#ReactPiano .white-keys")
-                            .append("rect").attr("id","note-white-"+ wk)
-                            .attr("class","note white")
-                            .attr("width",this.keyWidth)
-                            .attr("height",this.keyHeight)
-                            .attr("x",(wk * this.keyWidth) - this.keyWidth).attr("y",0);
+                        createWhiteKeys("#svg-keyboard-top .white-keys",wk,0,active, this.keyWidth,this.keyHeight);
                     }
-                    /** #### On 26th count add div keyboard-bottom #### **/
+                     /** ####  define keyboard-bottom when count is 31 #### **/
                     if(wk === (this.noteWhite/2)){
-                        keyboard.append("div")
-                            .attr("class","keyboard-bottom")
-                            .attr("height",this.keyHeight)
-                            .append("svg")
-                            .attr("id","ReactPiano2")
-                            .attr("width",this.keyWidth * (this.noteWhite/2) + 2)
-                            .attr("height",this.keyHeight + 2)
-                            .attr("preserveAspectRatio","none")
-                            .append("g").attr("class","white-keys");
+                        defineWhiteKeyboard(keyboard,"keyboard-bottom",this.keyWidth,this.keyHeight,this.noteWhite,"svg-keyboard-btm","white-keys");
                     }
                      /** #### If white keys more than 31 draw white keys to keyboard-bottom #### **/
                     if(wk > (this.noteWhite/2)){
-
-                        d3.select("#ReactPiano2 .white-keys")
-                            .append("rect")
-                            .attr("id","note-white-"+ wk)
-                            .attr("class","note white")
-                            .attr("width",this.keyWidth)
-                            .attr("height",this.keyHeight)
-                            .attr("x",(keyCount * this.keyWidth) - this.keyWidth).attr("y",0);
+                        createWhiteKeys("#svg-keyboard-btm .white-keys",wk,keyCount,"note white", this.keyWidth,this.keyHeight);
                         keyCount ++;
                     }
             }
 
-            for(bk = 1; bk <= this.noteBlack; bk++){
+            for (bk = 1; bk <= this.noteBlack; bk++){
                     if(bk === 1){
-                        d3.select(".keyboard-top #ReactPiano")
-                            .append("g").attr("class","black-keys")
-                            .attr("transform","translate(28,0.0)");
+                        defineBlackKeyboard(".keyboard-top #svg-keyboard-top","black-keys","translate(28,0.0)");
                     }
                     if(bk <= 18){
                          xPlot = ( bk * this.blackKeyW);
                          xPlotB = ((bk * this.blackKeyW) - 10);
+                        createBlackKeys("#svg-keyboard-top .black-keys","note black",bk,this.blackKeyW,this.keyHeight);
 
-                        d3.select("#ReactPiano .black-keys")
-                            .append("rect")
-                            .attr("id","note-black-"+ bk)
-                            .attr("class","note black")
-                            .attr("stroke","#000000")
-                            .attr("width", this.blackKeyW)
-                            .attr("height",this.keyHeight/2);
-                            if(bk === 1){
+                        if(bk === 1){
                             d3.select("#note-black-1").attr("x", 0).attr("y",0);
                             }
                             if(bk === 2){
@@ -130,19 +147,13 @@ export default class DrawKeyboard extends Component {
                             }
                     }
                     if(bk === 19){
-                        d3.select(".keyboard-bottom #ReactPiano2")
-                            .append("g").attr("class","black-keys")
-                            .attr("transform","translate(28,0.0)");
+                        defineBlackKeyboard(".keyboard-bottom #svg-keyboard-btm","black-keys","translate(28,0.0)");
                     }
                     if(bk > 18){
                         xPlotC = (blackKeyCount * this.blackKeyW);
                         xPlotD = ((blackKeyCount * this.blackKeyW) - 10);
-                        d3.select("#ReactPiano2 .black-keys")
-                            .append("rect")
-                            .attr("id","note-black-"+ bk)
-                            .attr("class","note black")
-                            .attr("width", this.blackKeyW)
-                            .attr("height", this.keyHeight/2);
+
+                        createBlackKeys("#svg-keyboard-btm .black-keys","note black",bk,this.blackKeyW,this.keyHeight);
 
                         if(bk === 19){
                             d3.select("#note-black-1").attr("x", "0").attr("y","0");
@@ -172,7 +183,6 @@ export default class DrawKeyboard extends Component {
                             d3.select("#note-black-"+bk).attr("x",xPlotC + 310).attr("y",0);
                         }
                         if(bk > 29){
-                           // d3.select("#note-black-"+bk).attr("x",xPlotC + 330).attr("y",0);
                            d3.select("#note-black-"+bk).attr("x",(xPlotC + xPlotD) + 98).attr("y",0);
                         }
                         if(bk === 32){
@@ -184,7 +194,6 @@ export default class DrawKeyboard extends Component {
                         if(bk > 33){
                             d3.select("#note-black-"+bk).attr("x",(xPlotC + xPlotD) + 184).attr("y",0);
                         }
-
                         if(bk === 34){
                             d3.select("#note-black-"+bk).attr("x",xPlotC + 476).attr("y",0);
                         }
@@ -192,13 +201,12 @@ export default class DrawKeyboard extends Component {
                             d3.select("#note-black-"+bk).attr("x",(xPlotC + xPlotD) + 164).attr("y",0);
                         }
                         blackKeyCount ++;
-                        console.log(blackKeyCount);
                     }
             }
-        }
+        };
         render(){
           return(
-              <div className="holder-keyboard" ref="keyboardW">
+              <div className="holder-keyboard">
               </div>
           );
         }
