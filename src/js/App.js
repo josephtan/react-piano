@@ -15,7 +15,7 @@ class App extends Component {
           <PlaySound/>
         </main>
         <footer className="App-footer">
-            <p>React Piano</p>
+            <p>React Piano, keys are drawn with D3.js svg</p>
         </footer>
       </div>
     );
