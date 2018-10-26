@@ -13,6 +13,11 @@ export default class DrawKeyboard extends Component {
             this.keyWidth = 38;
             this.blackKeyW = 20;
             this.keyHeight = 298;
+            this.whitekeyColor ="#fffff0";
+            this.whitekeyColorClick="#e3e1d4";
+            this.blackKeyColor="#444";
+            this.blackKeyColorClick="#000";
+            this.strokeColor="#000";
             this.state = {active:this.props.active}
         }
         componentDidMount(){
@@ -61,16 +66,16 @@ export default class DrawKeyboard extends Component {
                     .append("rect")
                     .on("mousedown", function() {
                         that.clickEvent(); /** execute clickEvent **/
-                        d3.select("#note-white-"+keyType).attr("fill","#e3e1d4");
+                        d3.select("#note-white-"+keyType).attr("fill",this.whitekeyColorClick);
                     }).on("mouseup",function(){
-                        d3.select("#note-white-"+keyType).attr("fill","#fffff0");
+                        d3.select("#note-white-"+keyType).attr("fill",this.whitekeyColor);
                     })
                     .attr("id","note-white-"+keyType)
                     .attr("class",keyClass)
                     .attr("width",keyWidth)
                     .attr("height",keyHeight)
-                    .attr("fill","#fffff0")
-                    .attr("stroke","#000");
+                    .attr("fill",this.whitekeyColor)
+                    .attr("stroke",this.strokeColor);
                     if(keyCount === 0){
                         d3.select("#note-white-"+keyType).attr("x",(keyType * keyWidth) - keyWidth).attr("y",0);
                     }else{
@@ -85,14 +90,14 @@ export default class DrawKeyboard extends Component {
                     .append("rect")
                     .on("mousedown", function() {
                         that.clickEvent(); /** execute clickEvent **/
-                        d3.select("#note-black-"+keyType).attr("fill","#000");
+                        d3.select("#note-black-"+keyType).attr("fill",this.blackKeyColorClick);
                      }).on("mouseup",function(){
-                         d3.select("#note-black-"+keyType).attr("fill","#444");
+                         d3.select("#note-black-"+keyType).attr("fill",this.blackKeyColor);
                      })
                     .attr("id","note-black-"+ keyType)
                     .attr("class",noteClass)
-                    .attr("stroke","#000")
-                    .attr("fill","#444")
+                    .attr("stroke",this.strokeColor)
+                    .attr("fill",,this.blackKeyColor)
                     .attr("width", keyWidth)
                     .attr("height",keyHeight/2);
             };
@@ -234,7 +239,7 @@ export default class DrawKeyboard extends Component {
         render(){
           return(
               <div className="holder-keyboard">
-                  <p>Click on the respective keys to play notes. Note: Currently the piano is not responsive because of the complexity of the x positioning for svg within an algorithmic loop.</p>
+                  <p>Click on the respective keys to play notes. Note: Currently the piano is not responsive as its difficult to implement an 88 keyboard to small screens and due to the x positioning within the draw loop.</p>
               </div>
           );
         }
