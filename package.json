@@ -50,6 +50,7 @@
     "url-loader": "1.1.1",
     "node-sass": "^4.9.4",
     "d3": "^5.7.0",
+    "react-anime":"^2.2.0",
     "webpack": "4.19.1",
     "webpack-dev-server": "3.1.9",
     "webpack-manifest-plugin": "2.0.4",
