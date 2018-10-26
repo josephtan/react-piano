@@ -97,7 +97,7 @@ export default class DrawKeyboard extends Component {
                     .attr("id","note-black-"+ keyType)
                     .attr("class",noteClass)
                     .attr("stroke",this.strokeColor)
-                    .attr("fill",,this.blackKeyColor)
+                    .attr("fill",this.blackKeyColor)
                     .attr("width", keyWidth)
                     .attr("height",keyHeight/2);
             };
