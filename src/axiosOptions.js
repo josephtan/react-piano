@@ -4,9 +4,9 @@
 
 let axios = require("axios");
 
-
+let basePath =".";
 let axiosInstance = axios.create({
-    baseURL: "/data/"
+    baseURL: basePath + "/data/"
 });
 
 module.exports = {
