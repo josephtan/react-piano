@@ -26,7 +26,7 @@ export default class DrawKeyboard extends Component {
         /**------------------------------------**\
           Draw keys method
         \**------------------------------------**/
-        drawKeys = (polygonClassName,active) => {
+        drawKeys = (polygonClassName) => {
             let that = this;
             let keyboard = d3.select(polygonClassName);
             let wk,bk,keyCount = 1, blackKeyCount = 1;
