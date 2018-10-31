@@ -228,7 +228,9 @@ export default class DrawKeyboard extends Component {
         render(){
           return(
               <div className="holder-keyboard">
-                  <p>Click on the respective keys to play notes. Note: Currently the piano is not responsive as its difficult to implement an 88 keyboard to small screens and due to the x positioning within the draw loop.</p>
+                  <p>Click on the respective keys to play notes. Note: Currently the piano is not responsive as its difficult to implement an 88 keyboard to small screens and due to the x positioning within the draw loop.
+                  I should say its a UI design problem and make improvements.
+                  </p>
               </div>
           );
         }
