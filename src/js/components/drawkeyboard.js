@@ -19,7 +19,7 @@ export default class DrawKeyboard extends Component {
             this.drawKeys(this.keyboard,this.state.active);
         }
         clickEvent = () =>{
-       //     this.setState({active:active})
+       // this.setState({active:active})
            // console.log("clickEvent function");
             //console.log(this.state);
         };
@@ -79,9 +79,9 @@ export default class DrawKeyboard extends Component {
                     .append("rect")
                     .on("mousedown", function() {
                         that.clickEvent(); /** execute clickEvent **/
-                        d3.select("#note-black-"+keyType).attr("fill","#000");
+                        d3.select("#note-black-"+keyType).attr("fill","#222");
                      }).on("mouseup",function(){
-                         d3.select("#note-black-"+keyType).attr("fill","#444");
+                         d3.select("#note-black-"+keyType).attr("fill","#000");
                      })
                     .attr("id","note-black-"+ keyType)
                     .attr("class",noteClass)
