@@ -10,6 +10,8 @@ Project is bootstrapped with modified [Create React App](https://github.com/face
 3) Run "yarn build" to build the project for deployment the into the build folder.
 4) Run yarn start to get webpack dev server running as localhost:3000
 
+Livelink: https://reactpiano.jttan.com/
+
 ### Notes
 
 If node.js throws up an error about node-sass make sure to run the project on node.js version v11.2.0.
